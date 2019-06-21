@@ -1,5 +1,4 @@
 function dataLocalizeRefresh(lang, fullLangText) {
-  console.log('hey')
   var opts = { language: lang, pathPrefix: "./lang" };
   $("[data-localize]").localize("stringData", opts);
   console.log("dataLocalizeRefreshEnd " + lang);
