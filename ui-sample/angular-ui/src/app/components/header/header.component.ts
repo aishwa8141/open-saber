@@ -98,6 +98,8 @@ export class HeaderComponent implements OnInit {
 
   cacheData() {
     let userDetails = this.keycloakAngular.getKeycloakInstance().tokenParsed;
+    let userToken = this.keycloakAngular.getKeycloakInstance().token;
+    this.cacheService.set(appConfig.cacheServiceConfig.cacheVariables.UserToken, userToken, { maxAge: appConfig.cacheServiceConfig.setTimeInMinutes * appConfig.cacheServiceConfig.setTimeInSeconds });
     this.cacheService.set(appConfig.cacheServiceConfig.cacheVariables.UserKeyCloakData, userDetails, { maxAge: appConfig.cacheServiceConfig.setTimeInMinutes * appConfig.cacheServiceConfig.setTimeInSeconds });
     this.cacheService.set(appConfig.cacheServiceConfig.cacheVariables.UserAuthenticated, { status: true }, { maxAge: appConfig.cacheServiceConfig.setTimeInMinutes * appConfig.cacheServiceConfig.setTimeInSeconds });
     if (this.userLogin) {
