@@ -11,7 +11,7 @@
                 "name": "Employee name",
                 "label": "Employee name",
                 "description": "Employee name",
-                "editable": true,
+                "editable": false,
                 "placeholder": "Employee name",
                 "inputType": "text",
                 "required": false,
