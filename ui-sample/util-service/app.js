@@ -13,7 +13,7 @@ const _ = require('lodash')
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 var async = require('async');
-const templates = require('./templates/template.config.json');
+const templateConfig = require('./templates/template.config.json');
 
 
 const port = process.env.PORT || 8090;
@@ -60,12 +60,33 @@ app.post("/registry/add", (req, res, next) => {
 });
 
 app.post("/registry/search", (req, res, next) => {
+    if (req.headers['x-authenticated-user-token']) {
+        var roles;
+        let token = req.headers['x-authenticated-user-token'];
+        var decoded = jwt.decode(token);
+        if (decoded != null && decoded.realm_access) {
+            roles = decoded.realm_access.roles;
+        }
+        var searchTemplate = getTemplateName(roles, 'searchTemplates');
+        req.body.request.viewTemplateId = searchTemplate;
+    }
     postCallToRegistry(req.body, "/search", function (err, data) {
         return res.send(data);
     });
 });
 
 app.post("/registry/read", (req, res, next) => {
+    var headers = req.headers;
+    var roles = [];
+    let token = headers['x-authenticated-user-token'];
+    var decoded = jwt.decode(token);
+    if (headers.role) {
+        roles = [headers.role]
+    } else if (decoded != null && decoded.realm_access) {
+        roles = decoded.realm_access.roles;
+    }
+    var searchTemplate = getTemplateName(roles, 'searchTemplates');
+    req.body.request.viewTemplateId = searchTemplate;
     postCallToRegistry(req.body, "/read", function (err, data) {
         return res.send(data);
     })
@@ -102,7 +123,7 @@ const getFormTemplates = (header, callback) => {
     } else if (decoded.realm_access) {
         roles = decoded.realm_access.roles;
     }
-    readFormTemplate(getTemplateName(roles), function (err, data) {
+    readFormTemplate(getTemplateName(roles, 'formTemplates'), function (err, data) {
         if (err) callback(err, null);
         else callback(null, data);
     });
@@ -112,16 +133,15 @@ const getFormTemplates = (header, callback) => {
  * pick the template according to the role, preferences is ordered 
  * @param {*} roles 
  */
-//todo get roles from config
-const getTemplateName = (roles) => {
-    if (_.includes(roles, 'admin'))
-        return templates.formTemplates['admin'];
-    if (_.includes(roles, 'partner-admin'))
-        return templates.formTemplates['partner-admin'];
-    if (_.includes(roles, 'fin-admin'))
-        return templates.formTemplates['fin-admin'];
-    if (_.includes(roles, 'owner'))
-        return templates.formTemplates['owner']
+const getTemplateName = (roles, templateName) => {
+    if (_.includes(roles, templateConfig.roles.admin))
+        return templateConfig[templateName][templateConfig.roles.admin];
+    if (_.includes(roles, templateConfig.roles.partnerAdmin)) 
+        return templateConfig[templateName][templateConfig.roles.partnerAdmin];
+    if (_.includes(roles, templateConfig.roles.finAdmin))
+        return templateConfig[templateName][templateConfig.roles.finAdmin];
+    if (_.includes(roles, templateConfig.roles.owner))
+        return templateConfig[templateName][templateConfig.roles.owner]
 }
 
 const readFormTemplate = (value, callback) => {
@@ -157,7 +177,7 @@ const postCallToRegistry = (value, endPoint, callback) => {
 }
 
 const addEmployeeToRegistry = (value, header, res, callback) => {
-    value['isApproved'] = false;
+    value['isActive'] = false;
     let reqBody = {
         "id": "open-saber.registry.create",
         "ver": "1.0",

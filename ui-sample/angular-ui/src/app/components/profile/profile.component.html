@@ -17,13 +17,17 @@
       </app-default-template>
     </div>
     <div class="twelve wide column">
-    <div class="d-flex flex-jc-center">
+    <div class="d-flex flex-jc-center" *ngIf="userProfile.isActive || viewOwnerProfile == 'owner'">
         <button class="ui primary button" (click)="navigateToEditPage()">
           {{resourceService?.frmelmnts?.btn?.edit}}
         </button>
         <button class="ui button" (click)="navigateToHomePage()">
           {{resourceService?.frmelmnts?.btn?.cancel}}
         </button>
+      </div>
+      <div class="d-flex flex-jc-center" *ngIf="viewOwnerProfile !='owner' && !userProfile.isActive">
+        <button  *ngIf='permissionService.permissionAvailable' appPermission
+        [permission]="adminConsoleRole" class="ui basic positive button" (click)="approve()">{{resourceService?.frmelmnts?.btn?.approve}}</button>
       </div>
     </div>
   </div>

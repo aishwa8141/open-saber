@@ -40,9 +40,9 @@ export class UpdateComponent implements OnInit {
   }
 
   ngOnInit() {
-   this.viewOwnerProfile = this.activatedRoute.snapshot.queryParams.role;
     this.activatedRoute.params.subscribe((params) => {
       this.userId = params.userId;
+      this.viewOwnerProfile = params.role;
     });
     this.getFormTemplate();
   }

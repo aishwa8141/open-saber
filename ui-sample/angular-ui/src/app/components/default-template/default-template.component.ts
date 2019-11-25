@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { DataService } from '../../services/data/data.service';
 import appConfig from '../../services/app.config.json';
 import * as _ from 'lodash-es';
+import { CacheService } from 'ng2-cache-service';
+import { UserService } from '../../services/user/user.service';
 
 
 @Component({
@@ -17,14 +19,18 @@ export class DefaultTemplateComponent implements OnInit {
   activatedRoute: ActivatedRoute;
   userId: String;
   dataService: DataService;
-  constructor(activatedRoute: ActivatedRoute, dataService: DataService) {
+  userService: UserService;
+  public viewOwnerProfile: string;
+  constructor(activatedRoute: ActivatedRoute, dataService: DataService, userservice: UserService, public cacheService: CacheService) {
     this.activatedRoute = activatedRoute;
     this.dataService = dataService;
+    this.userService = userservice;
   }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
       this.userId = params.userId;
+      this.viewOwnerProfile = params.role;
     });
     if(this.userId) {
       this.getUserDetails();
@@ -32,7 +38,15 @@ export class DefaultTemplateComponent implements OnInit {
   }
 
   getUserDetails() {
+    let token = this.cacheService.get(appConfig.cacheServiceConfig.cacheVariables.UserToken);
+    if (_.isEmpty(token)) {
+      token = this.userService.getUserToken;
+    }
     const requestData = {
+      header: {
+        userToken: token,
+        role: this.viewOwnerProfile
+      },
       data: {
         "id": "open-saber.registry.read",
         'request': {
