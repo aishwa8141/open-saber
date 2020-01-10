@@ -5,10 +5,9 @@
         "templateName": "defaultTemplate",
         "action": "create",
         "categories":{
-            "Personal information":["name", "orgName","externalId", "externalRole","email", "phone"],
-            "General":["slackAccess", "repoAccess", "startDate", "endDate", "workLocation", "workingStyle", "macAddress"],
-            "Admin information":["role", "isActive","projectName","subProjectName", "nineAMreportTo", "remarks"],
-            "Billing":["proposedBilling"]
+            "Personal information":["name","email", "phone", "role"],
+            "General":["githubId", "macAddress"],
+            "Admin information":["clientInfo"]
         },
         "fields": [
             {
@@ -62,41 +61,6 @@
                 },
                 "index": 3
             },
-           
-            {
-                "code": "externalId",
-                "dataType": "text",
-                "name": "externalId",
-                "label": "Partner Employee Id",
-                "description": "External Id",
-                "editable": true,
-                "placeholder": "External Id",
-                "inputType": "text",
-                "required": true,
-                "displayProperty": "Editable",
-                "visible": true,
-                "renderingHints": {
-                    "semanticColumnWidth": "six"
-                },
-                "index": 4
-            },
-            {
-                "code": "externalRole",
-                "dataType": "text",
-                "name": "externalRole",
-                "label": "External Role",
-                "description": "External Role",
-                "editable": true,
-                "placeholder": "External Role",
-                "inputType": "text",
-                "required": true,
-                "displayProperty": "Editable",
-                "visible": true,
-                "renderingHints": {
-                    "semanticColumnWidth": "six"
-                },
-                "index": 5
-            },
             {
                 "code": "macAddress",
                 "dataType": "text",
@@ -113,6 +77,86 @@
                     "semanticColumnWidth": "four"
                 },
                 "index": 6
+            },
+            {
+                "code": "clientInfo",
+                "dataType": "object",
+                "name": "code",
+                "label": "clientInfo",
+                "description": "clientInfo",
+                "editable": true,
+                "placeholder": "clientInfo",
+                "inputType": "object",
+                "required": false,
+                "displayProperty": "Editable",
+                "visible": true,
+                "renderingHints": {
+                    "semanticColumnWidth": "twelve"
+                },
+                "attributes": [
+                    {
+                        "code": "name",
+                        "dataType": "text",
+                        "name": "name",
+                        "label": "client name",
+                        "description": "client Name",
+                        "editable": true,
+                        "placeholder": "client Name",
+                        "inputType": "select",
+                        "required": true,
+                        "displayProperty": "Editable",
+                        "visible": true,
+                        "range": [
+                            {
+                                "name": "Ekstep",
+                                "id": "Ekstep"
+                            },
+                            {
+                                "id": "Others",
+                                "name": "Others"
+                            }
+                        ],
+                        "renderingHints": {
+                            "semanticColumnWidth": "six"
+                        },
+                        "index": 5
+                    },
+                    {
+                        "code": "startDate",
+                        "dataType": "text",
+                        "name": "startDate",
+                        "label": "Start Date",
+                        "description": "Start Date",
+                        "editable": true,
+                        "placeholder": "Start Date",
+                        "inputType": "text",
+                        "required": false,
+                        "displayProperty": "Editable",
+                        "visible": true,
+                        "renderingHints": {
+                            "semanticColumnWidth": "six"
+                        },
+                        "index": 5
+                    },
+                    {
+                        "code": "endDate",
+                        "dataType": "text",
+                        "name": "endDate",
+                        "label": "End Date",
+                        "description": "End Date",
+                        "editable": true,
+                        "placeholder": "End Date",
+                        "inputType": "text",
+                        "required": false,
+                        "displayProperty": "Editable",
+                        "visible": true,
+                        "renderingHints": {
+                            "semanticColumnWidth": "six"
+                        },
+                        "index": 5
+                    }
+                ],
+                "index": 5
             }
         ]
     }
