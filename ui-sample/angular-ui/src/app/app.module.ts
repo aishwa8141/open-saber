@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http'
 import {
   SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule, SuiProgressModule,
-  SuiRatingModule, SuiCollapseModule, SuiCheckboxModule, SuiModalService
+  SuiRatingModule, SuiCollapseModule, SuiCheckboxModule, SuiModalService, SuiDatepickerModule
 } from 'ng2-semantic-ui';
 import { RouterModule } from '@angular/router';
 import { DefaultTemplateComponent } from './components/default-template/default-template.component';
@@ -59,7 +59,7 @@ let moduleOptions = {
     HttpClientModule,
     HttpModule,
     SuiSelectModule, SuiModalModule, SuiAccordionModule, SuiPopupModule, SuiDropdownModule, SuiProgressModule,
-    SuiRatingModule, SuiCollapseModule, SuiCheckboxModule, SuiPopupModule,
+    SuiRatingModule, SuiCollapseModule, SuiCheckboxModule, SuiPopupModule, SuiDatepickerModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,

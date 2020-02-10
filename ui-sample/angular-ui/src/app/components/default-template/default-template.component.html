@@ -32,6 +32,18 @@
           </sui-select>
         </div>
       </div>
+      <div *ngIf="field.inputType==='date'" class="field" [ngClass]="{'required':field.required}">
+        <label>{{field.label}}</label>
+        <div class="field" [ngClass]="{ 'disabled':!field.editable}">
+          <div class="ui calendar">
+            <div class="ui input left icon">
+              <i class="calendar icon"></i>
+              <input suiDatepicker [(ngModel)]="formInputData[field.code]" (change)="convertDateFormat(formInputData[field.code])" [pickerMode]="'date'"
+                [pickerFirstDayOfWeek]="firstDayOfWeek" [pickerUseNativeOnMobile]="false">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
