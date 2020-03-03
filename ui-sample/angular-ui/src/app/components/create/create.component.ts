@@ -28,7 +28,10 @@ export class CreateComponent implements OnInit {
   success = false;
   isError = false;
   errMessage: string;
-  formInputData = {}
+  formInputData = {};
+  categories: any = {};
+  sections = []
+
   constructor(resourceService: ResourceService, formService: FormService, dataService: DataService, route: Router, public userService: UserService, private cacheService: CacheService,
     public toasterService: ToasterService) {
     this.resourceService = resourceService;
@@ -40,6 +43,8 @@ export class CreateComponent implements OnInit {
   ngOnInit() {
     this.formService.getFormConfig("employee").subscribe(res => {
       this.formFieldProperties = res.fields;
+      this.categories = res.categories;
+      this.getCategory();
       this.createSubObjectForFormInput();
     });
   }
@@ -48,6 +53,16 @@ export class CreateComponent implements OnInit {
     _.map(this.formFieldProperties, field => {
       if (field.inputType === 'object')
         this.formInputData[field.code] = {};
+    });
+  }
+
+
+  getCategory() {
+    _.map(this.categories, (value, key) => {
+      var filtered_people = _.filter(this.formFieldProperties, function (field) {
+        return _.includes(value, field.code);
+      });
+      this.sections.push({ name: key, fields: filtered_people });
     });
   }
 
@@ -95,7 +110,7 @@ export class CreateComponent implements OnInit {
     this.dataService.post(requestData).subscribe(response => {
       if (response.params.status === "SUCCESSFUL") {
         this.toasterService.success(this.resourceService.frmelmnts.msg.createUserSuccess);
-        this.router.navigate(['/search'])
+        // this.router.navigate(['/search'])
       }
     }, err => {
       this.errMessage = err.error.errorMessage;

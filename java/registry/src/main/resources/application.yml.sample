@@ -94,7 +94,7 @@ database:
       #     ** Example - Postgres - jdbc:postgresql://localhost:5432/yourdb
       #     * 3. NoSQL  databases (Cassandra)
       #     ** Example - cassandra - jdbc:cassandra://localhost:9160/yourdb
-      uri: ${connectionInfo_uri:jdbc:postgresql://localhost:5432/NIITRegistryDb}
+      uri: ${connectionInfo_uri:jdbc:postgresql://localhost:5432/niitdb}
 
       username: ${connectionInfo_username:aishwarya}
       password: ${connectionInfo_password:aishu@123}

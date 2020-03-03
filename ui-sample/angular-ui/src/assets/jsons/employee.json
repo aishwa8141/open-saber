@@ -15,7 +15,11 @@
       "General": [
         "githubId",
         "macAddress"
-      ]
+      ],
+      "Client Information": [
+        "clientInfo"
+      ],
+      "$comment":"Categories to divide the form into sections"
     },
     "fields": [
       {
@@ -196,7 +200,7 @@
             "description": "Start Date",
             "editable": true,
             "placeholder": "Start Date",
-            "inputType": "text",
+            "inputType": "date",
             "required": true,
             "displayProperty": "Editable",
             "visible": true,

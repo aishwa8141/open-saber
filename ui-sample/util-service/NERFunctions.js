@@ -154,6 +154,7 @@ class NERFunctions extends Functions {
         let attributesUpdated = _.keys(this.request.body.request[entityType]);//get the list of updated attributes from the req
         let count = 0
         async.forEachSeries(this.notifyAttributes, (param, callback2) => {
+            count ++
             if (_.includes(attributesUpdated, param)) {
                 let params = {
                     paramName: param,
@@ -287,7 +288,7 @@ class NERFunctions extends Functions {
         delete updateReq.body.request[entityType]["clientInfo"]
 
         updateReq.body.request[entityType].osid = searchRes.result[entityType][0].osid;
-
+        updateReq.body.id = appConfig.APP_ID.UPDATE
         let option = {
             body: updateReq.body,
             headers: headers,
@@ -296,7 +297,7 @@ class NERFunctions extends Functions {
         httpUtils.post(option, (err, res) => {
             if (res) {
                 logger.info("Send successfully to EPR ")
-                logger.debug(res)
+                logger.debug(res.body)
                 callback(null, res.body);
             }
             else {
