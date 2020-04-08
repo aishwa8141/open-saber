@@ -32,7 +32,9 @@ public class SearchDaoImpl implements SearchDao {
         int offset = searchQuery.getOffset();
         ObjectNode resultNode = JsonNodeFactory.instance.objectNode();
         for (String entity : searchQuery.getEntityTypes()) {
-            GraphTraversal<Vertex, Vertex> resultGraphTraversal = dbGraphTraversalSource.clone().V().hasLabel(entity)
+            GraphTraversal<Vertex, Vertex> resultGraphTraversal = dbGraphTraversalSource.V().hasLabel(entity);
+            GraphTraversal<Vertex, Vertex> parentTraversal = resultGraphTraversal.asAdmin();
+            resultGraphTraversal = getFilteredResultTraversal(resultGraphTraversal, filterList)
                     .range(offset, offset + searchQuery.getLimit()).limit(searchQuery.getLimit());
             GraphTraversal<Vertex, Vertex> parentTraversal = resultGraphTraversal.asAdmin().clone();
 
